@@ -1,0 +1,42 @@
+﻿<Window x:Class="polyclinic.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:local="clr-namespace:polyclinic"
+        mc:Ignorable="d"
+        Title="{Binding EmployeeName}" Height="450" Width="1200">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding ClosingWindowCommand}"
+                PassEventArgsToCommand="True"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <Menu>
+            <MenuItem Header="Добавить обращение" Command="{Binding AddAppealCommand}"
+                      Visibility="{Binding AddAppealMenuItemVisibility}"></MenuItem>
+            <MenuItem Header="Изменить обращение"></MenuItem>
+            <MenuItem Header="Удалить обращение" Visibility="{Binding RemoveAppealMenuItemVisibility}"></MenuItem>
+        </Menu>
+        <DataGrid AutoGenerateColumns="False" x:Name="viewAppeals" Margin="0 20 0 0"
+                  ItemsSource="{Binding Appeals}" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Пациент" Binding="{Binding Path=Patient.FIO}"/>
+                <DataGridTextColumn Header="Телефон пациента" Binding="{Binding Path=Patient.PhoneNumber}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Принял обращения" Binding="{Binding Path=Operator.FIO}"/>
+                <DataGridTextColumn Header="Отделение" Binding="{Binding Path=Department.Name}"/>
+                <DataGridTextColumn Header="Врач" Binding="{Binding Path=Doctor.FIO}"/>
+                <DataGridTextColumn 
+                    Header="Дата обращения"
+                    Binding="{Binding Path=ApplicationDate, StringFormat=\{0:dd.MM.yy HH:mm\}}"/>
+                <DataGridTextColumn 
+                    Header="Дата приема"
+                    Binding="{Binding Path=ReceiptDate, StringFormat=\{0:dd.MM.yy HH:mm\}}"/>
+                <DataGridTextColumn Header="Анамнез" Binding="{Binding Path=Anamnesis}"/>
+                <DataGridTextColumn Header="Решение врача" Binding="{Binding Path=DoctorDisease}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>
