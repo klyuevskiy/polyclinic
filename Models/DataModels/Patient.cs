@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace polyclinic.Models
+namespace Models.DataModels
 {
     public class Patient
     {
+        // автоматически определится первичным ключём
         public int Id { get; set; }
 
+        [Required]
         public string FIO { get; set; } = "";
+
+        [Required]
         public string PhoneNumber { get; set; } = "";
 
         public override string ToString()

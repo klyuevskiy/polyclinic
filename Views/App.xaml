@@ -1,8 +1,8 @@
-﻿<Application x:Class="polyclinic.App"
+﻿<Application x:Class="Views.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:polyclinic"
-             StartupUri="Views/AuthorizationWindow.xaml">
+             StartupUri="AuthorizationWindow.xaml"
+             xmlns:local="clr-namespace:Views">
     <Application.Resources>
          
     </Application.Resources>

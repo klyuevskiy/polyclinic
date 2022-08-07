@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using polyclinic.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Models.DataModels;
 
-namespace polyclinic
+namespace Models.DataAccess
 {
-     public class AppContext : DbContext
+    public class AppContext : DbContext
     {
         public DbSet<Operator> Operators { get; set; } = null!;
         public DbSet<Department> Departments { get; set; } = null!;
@@ -18,7 +13,9 @@ namespace polyclinic
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=polyclinic.db");
+            optionsBuilder
+                .UseLazyLoadingProxies()
+                .UseSqlite("Data Source=polyclinic.db");
         }
     }
 }

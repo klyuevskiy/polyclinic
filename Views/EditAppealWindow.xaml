@@ -1,26 +1,28 @@
-﻿<Window x:Class="polyclinic.Views.EditAppealWindow"
+﻿<Window x:Class="Views.EditAppealWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:polyclinic.Views"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="{Binding Appeal.Patient.FIO}" Height="500" Width="400"
         x:Name="window">
     <Grid>
         <StackPanel Margin="10 0 10 0">
             <TextBlock>Пациент</TextBlock>
-            <ComboBox SelectedItem="{Binding SelectedPatient}" ItemsSource="{Binding Patients}"
-                      Text="{Binding PatientFIO}" IsEditable="True" Margin="0 0 0 10">
+            <ComboBox SelectedItem="{Binding SelectedPatient.Patient}"
+                      ItemsSource="{Binding IndexPatientsViewModel.Patients}"
+                      Text="{Binding SelectedPatient.PatientFIO}" IsEditable="True" Margin="0 0 0 10">
             </ComboBox>
-            
+
             <!--для номера телефона-->
             <TextBlock>Номер телефона пациента</TextBlock>
-            <TextBox Text="{Binding PatientPhoneNumber}" Margin="0 0 0 10"></TextBox>
-            
+            <TextBox Text="{Binding SelectedPatient.PatientPhoneNumber}"
+                     Margin="0 0 0 10"></TextBox>
+
             <TextBlock >Отделение</TextBlock>
-            <ComboBox SelectedItem="{Binding Appeal.Department}" ItemsSource="{Binding Departments}"
+            <ComboBox SelectedItem="{Binding IndexDepartmentsViewModel.SelectedDepartment}"
+                      ItemsSource="{Binding IndexDepartmentsViewModel.Departments}"
                       Margin="0 0 0 10">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">
@@ -28,39 +30,39 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </ComboBox>
-            
+
             <TextBlock>Врач</TextBlock>
-            <ComboBox SelectedItem="{Binding Appeal.Doctor}" ItemsSource="{Binding Doctors}"
+            <ComboBox SelectedItem="{Binding IndexDoctorsViewModel.SelectedDoctor}"
+                      ItemsSource="{Binding IndexDoctorsViewModel.Doctors}"
                       Margin="0 0 0 10"></ComboBox>
-            
+
             <!--Оператор и время обращения определятся автоматически-->
             <!--Для даты приема(Также добавить ввод нужного времени)
             возможно для даты написать свой выбор(чтобы высвечивались только доступные даты в прромежутке)-->
-            
+
             <TextBlock>Дата приема</TextBlock>
             <!-- связь сделать с отдельным свойством для даты-->
             <DatePicker SelectedDate="{Binding Appeal.ReceiptDate}" Margin="0 0 0 10"></DatePicker>
-            
+
             <!--Анамнез и решение врача-->
             <TextBlock>Анамнез</TextBlock>
             <TextBox Text="{Binding Appeal.Anamnesis}"
                      TextWrapping="Wrap" VerticalScrollBarVisibility="Visible"
                      AcceptsReturn="True" Margin="0 0 0 10"></TextBox>
-            
+
             <TextBlock>Решение врача</TextBlock>
             <TextBox Text="{Binding Appeal.DoctorDisease}"
                      TextWrapping="Wrap" VerticalScrollBarVisibility="Visible"
                      AcceptsReturn="True" Margin="0 0 0 10"></TextBox>
 
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                <Button Command="{Binding ConfirmCommand}" CommandParameter="{Binding ElementName=window}"
+                <Button Command="{Binding ConfirmCommand}"
                         Width="100" Margin="0 0 20 0">Подтвердить</Button>
-                <Button Width="100" Command="{Binding CancelCommand}"
-                        CommandParameter="{Binding ElementName=window}">Отмена</Button>
+                <Button Width="100" Command="{Binding CancelCommand}">Отмена</Button>
             </StackPanel>
             <TextBlock Margin="0 10 0 0" Foreground="Red"
-                       Visibility="{Binding ErrorMessageVisibility}">
-                Не выбрано отделение или врач</TextBlock>
+                       Visibility="{Binding ErrorMessageVisibility}"
+                       Text="{Binding ErrorMessage}"></TextBlock>
         </StackPanel>
     </Grid>
 </Window>

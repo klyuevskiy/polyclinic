@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace polyclinic
+namespace ViewModels
 {
     public class Command : ICommand
     {
@@ -16,18 +12,18 @@ namespace polyclinic
             this.action = action;
         }
 
-        public event EventHandler? CanExecuteChanged
+        public event EventHandler CanExecuteChanged
         {
             add { CommandManager.RequerySuggested += value; }
             remove { CommandManager.RequerySuggested -= value; }
         }
 
-        public bool CanExecute(object? parameter)
+        public bool CanExecute(object parameter)
         {
             return true;
         }
 
-        public void Execute(object? parameter)
+        public void Execute(object parameter)
         {
             action();
         }
