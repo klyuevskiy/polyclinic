@@ -1,7 +1,8 @@
-﻿using Models.DataAccess;
-using Models;
+﻿using Models;
+using Models.DataAccess;
 using Models.DataModels;
 using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -48,7 +49,12 @@ namespace ViewModels
             if (passwordBox == null)
                 return;
 
-            Employee employee = Repository.FindEmployee(Login, passwordBox.Password);
+            Employee employee = EmployeeDAL.Get(Login, passwordBox.Password);
+
+            //Models.DataAccess.AppContext appContext = new Models.DataAccess.AppContext();
+
+            //appContext.Database.EnsureCreated();
+            //Employee employee = appContext.Operators.First();
 
             if (employee == null)
             {

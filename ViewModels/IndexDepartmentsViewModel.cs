@@ -22,7 +22,7 @@ namespace ViewModels
 
         public IndexDepartmentsViewModel()
         {
-            Departments = Repository.GetDepartmentsHaveDoctors();
+            Departments = DepartmentDAL.GetHaveDoctors();
         }
     }
 }

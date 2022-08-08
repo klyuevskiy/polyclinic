@@ -17,7 +17,7 @@ namespace Models
                 EmployeeName = (Employee is Operator ? "Оператор: " : "Врач: ") +
                     Employee.FIO;
 
-                Appeals = Repository.GetAppealsForEmployee(employee);
+                Appeals = AppealDAL.GetForEmployee(employee);
             }
         }
 
@@ -40,7 +40,7 @@ namespace Models
 
         public void Add(Appeal appeal)
         {
-            Repository.AddAppeal(appeal);
+            AppealDAL.Add(appeal);
             Appeals.Add(appeal);
         }
     }

@@ -10,7 +10,7 @@ namespace ViewModels
 
         public IndexPatientsViewModel()
         {
-            Patients = Repository.GetAllPatients();
+            Patients = PatientDAL.GetAll();
         }
     }
 }
