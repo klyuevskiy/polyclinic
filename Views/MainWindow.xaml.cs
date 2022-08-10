@@ -21,6 +21,12 @@ namespace Views
                 return dialogResult.HasValue && dialogResult.Value;
             };
 
+            indexAppealsViewModel.HideButtonsForDoctor = () =>
+            {
+                addMenuItem.Visibility = Visibility.Collapsed;
+                removeMenuItem.Visibility = Visibility.Collapsed;
+            };
+
             indexAppealsViewModel.UpdateAppealsView = () => viewAppeals.Items.Refresh();
         }
 

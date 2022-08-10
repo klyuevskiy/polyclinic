@@ -1,13 +1,20 @@
 ﻿using Models.DataModels;
 using System;
-using System.Windows;
 using System.Windows.Input;
 
 namespace ViewModels
 {
-    public class AppealViewModel : ViewModel
+    public class AppealViewModel : ModelViewModel<Appeal>
     {
-        public Appeal Appeal { get; set; }
+        public Appeal Appeal
+        {
+            get => model;
+            set
+            {
+                model = value;
+                OnPropertyChanged();
+            }
+        }
 
         public IndexPatientsViewModel IndexPatientsViewModel { get; private set; }
         public IndexDepartmentsViewModel IndexDepartmentsViewModel { get; private set; } 
@@ -28,10 +35,10 @@ namespace ViewModels
             }
         }
 
-
         public DoctorViewModel SelectedDoctor { get; set; }
 
         DepartmentViewModel selectedDepartment;
+
         public DepartmentViewModel SelectedDepartment
         {
             get => selectedDepartment;
@@ -41,76 +48,78 @@ namespace ViewModels
 
                 if (selectedDepartment != null &&
                     selectedDepartment.Department != null)
-                    IndexDoctorsViewModel.UpdateDoctors(selectedDepartment);
+                    IndexDoctorsViewModel?.UpdateDoctors(selectedDepartment);
 
                 OnPropertyChanged();
             }
         }
 
-        public void Load()
+        Employee employee;
+
+        public void Load(Employee employee)
         {
+            this.employee = employee;
+
             IndexPatientsViewModel = new IndexPatientsViewModel();
             IndexDepartmentsViewModel = new IndexDepartmentsViewModel();
             IndexDoctorsViewModel = new IndexDoctorsViewModel();
         }
 
         public AppealViewModel(Appeal appeal)
+            : base(appeal)
         {
-            Appeal = appeal;
-
             SelectedPatient = new PatientViewModel(Appeal.Patient);
             SelectedDepartment = new DepartmentViewModel(Appeal.Department);
             SelectedDoctor = new DoctorViewModel(Appeal.Doctor);
 
             ConfirmCommand = new Command(Confirm);
             CancelCommand = new Command(Cancel);
+            IdentifyEmployeeCommand = new Command(IdentifyEmployee);
         }
 
-        public ICommand ConfirmCommand { get; }
-        public ICommand CancelCommand { get; }
+        public ICommand ConfirmCommand { get; private set; }
+        public ICommand CancelCommand { get; private set; }
+        public ICommand IdentifyEmployeeCommand { get; private set; }
 
         public Action SetConfirmDialogResult { get; set; }
         public Action CloseWindow { get; set; }
 
-        Visibility errorMessageVisibility = Visibility.Collapsed;
+        public Action ShowUnvalidPateintError { get; set; }
+        public Action ShowUnselectedDepartmentError { get; set; }
+        public Action ShowUnselectedDoctorError { get; set; }
+        public Action HideErrors { get; set; }
 
-        public Visibility ErrorMessageVisibility
-        {
-            get => errorMessageVisibility;
-            set
-            {
-                errorMessageVisibility = value;
-                OnPropertyChanged();
-            }
-        }
+        public Action EnabledElementsForDoctor { get; set; }
+        public Action EnabledElementsForOperator { get; set; }
 
-        string errorMessage = "";
-        public string ErrorMessage
+        void IdentifyEmployee()
         {
-            get => errorMessage;
-            set
-            {
-                errorMessage = value;
-                OnPropertyChanged();
-            }
+            if (employee == null)
+                return;
+
+            if (employee is Doctor)
+                EnabledElementsForDoctor();
+            else
+                EnabledElementsForOperator();
         }
 
         void Confirm()
         {
             if (!SelectedPatient.IsValid())
             {
-                ErrorMessage = "Не заполнены данные пациента";
-                ErrorMessageVisibility = Visibility.Visible;
+                ShowUnvalidPateintError();
             }
-            else if (SelectedDepartment.Department == null ||
-                SelectedDoctor.Doctor == null)
+            else if (SelectedDepartment.Department == null)
             {
-                ErrorMessage = "Не выбрано отделение или врач";
-                ErrorMessageVisibility = Visibility.Visible;
+                ShowUnselectedDepartmentError();
+            }
+            else if (SelectedDoctor.Doctor == null)
+            {
+                ShowUnselectedDoctorError();
             }
             else
             {
-                ErrorMessageVisibility = Visibility.Collapsed;
+                HideErrors();
 
                 Appeal.Patient.FIO = SelectedPatient.PatientFIO;
                 Appeal.Patient.PhoneNumber = SelectedPatient.PatientPhoneNumber;

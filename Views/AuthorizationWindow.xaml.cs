@@ -1,5 +1,4 @@
-﻿using Models;
-using System.Windows;
+﻿using System.Windows;
 using ViewModels;
 
 namespace Views
@@ -17,15 +16,20 @@ namespace Views
 
             DataContext = authorizationViewModel;
 
-            authorizationViewModel.SuccessAuthorization = (AppealsProcess appealsProcess) =>
+            authorizationViewModel.SuccessAuthorization =
+                (IndexAppealsViewModel indexAppealsViewModel) =>
             {
-                var indexAppealsViewModel = new IndexAppealsViewModel(appealsProcess);
-
                 var mainWindow = new MainWindow(indexAppealsViewModel);
                 mainWindow.Show();
 
                 Hide();
             };
+
+            authorizationViewModel.ShowAuthorazationError =
+                () => errorMessageBox.Visibility = Visibility.Visible;
+
+            authorizationViewModel.HideErrors =
+                () => errorMessageBox.Visibility = Visibility.Collapsed;
         }
     }
 }

@@ -37,6 +37,7 @@ namespace Models.DataModels
         public Appeal(Operator op)
         {
             Operator = op;
+            Patient = new Patient();
         }
     }
 }

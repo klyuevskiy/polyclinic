@@ -7,26 +7,36 @@
         mc:Ignorable="d"
         Title="{Binding Appeal.Patient.FIO}" Height="500" Width="400"
         x:Name="window">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding IdentifyEmployeeCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Grid>
         <StackPanel Margin="10 0 10 0">
             <TextBlock>Пациент</TextBlock>
-            <ComboBox SelectedItem="{Binding SelectedPatient}"
+            <ComboBox x:Name="patientComboBox"
+                      SelectedItem="{Binding SelectedPatient}"
                       ItemsSource="{Binding IndexPatientsViewModel.Patients}"
-                      Text="{Binding SelectedPatient.PatientFIO}" IsEditable="True" Margin="0 0 0 10">
+                      Text="{Binding SelectedPatient.PatientFIO}"
+                      IsEditable="True" Margin="0 0 0 10">
             </ComboBox>
 
             <!--для номера телефона-->
             <TextBlock>Номер телефона пациента</TextBlock>
-            <TextBox Text="{Binding SelectedPatient.PatientPhoneNumber}"
+            <TextBox x:Name="patientPhoneNumberTextBox"
+                     Text="{Binding SelectedPatient.PatientPhoneNumber}"
                      Margin="0 0 0 10"></TextBox>
 
             <TextBlock >Отделение</TextBlock>
-            <ComboBox SelectedItem="{Binding SelectedDepartment}"
+            <ComboBox x:Name="departmentComboBox"
+                      SelectedItem="{Binding SelectedDepartment}"
                       ItemsSource="{Binding IndexDepartmentsViewModel.Departments}"
                       Margin="0 0 0 10"></ComboBox>
 
             <TextBlock>Врач</TextBlock>
-            <ComboBox SelectedItem="{Binding SelectedDoctor}"
+            <ComboBox x:Name="doctorComboBox"
+                      SelectedItem="{Binding SelectedDoctor}"
                       ItemsSource="{Binding IndexDoctorsViewModel.Doctors}"
                       Margin="0 0 0 10"></ComboBox>
 
@@ -36,16 +46,22 @@
 
             <TextBlock>Дата приема</TextBlock>
             <!-- связь сделать с отдельным свойством для даты-->
-            <DatePicker SelectedDate="{Binding Appeal.ReceiptDate}" Margin="0 0 0 10"></DatePicker>
+            <DatePicker x:Name="receiptDatePicker"
+                      SelectedDate="{Binding Appeal.ReceiptDate}"
+                      Margin="0 0 0 10"></DatePicker>
 
+            <ComboBox x:Name="receiptTimePicker"></ComboBox>
+            
             <!--Анамнез и решение врача-->
             <TextBlock>Анамнез</TextBlock>
-            <TextBox Text="{Binding Appeal.Anamnesis}"
+            <TextBox x:Name="anamnesisTextBox"
+                     Text="{Binding Appeal.Anamnesis}"
                      TextWrapping="Wrap" VerticalScrollBarVisibility="Visible"
                      AcceptsReturn="True" Margin="0 0 0 10"></TextBox>
 
             <TextBlock>Решение врача</TextBlock>
-            <TextBox Text="{Binding Appeal.DoctorDisease}"
+            <TextBox x:Name="doctorDiseaseTextBox"
+                     Text="{Binding Appeal.DoctorDisease}"
                      TextWrapping="Wrap" VerticalScrollBarVisibility="Visible"
                      AcceptsReturn="True" Margin="0 0 0 10"></TextBox>
 
@@ -55,8 +71,8 @@
                 <Button Width="100" Command="{Binding CancelCommand}">Отмена</Button>
             </StackPanel>
             <TextBlock Margin="0 10 0 0" Foreground="Red"
-                       Visibility="{Binding ErrorMessageVisibility}"
-                       Text="{Binding ErrorMessage}"></TextBlock>
+                       x:Name="errorMessageBox"
+                       Visibility="Collapsed"></TextBlock>
         </StackPanel>
     </Grid>
 </Window>

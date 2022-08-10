@@ -1,9 +1,6 @@
-﻿using Models;
-using Models.DataAccess;
+﻿using Models.DataAccess;
 using Models.DataModels;
 using System;
-using System.Linq;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -22,25 +19,16 @@ namespace ViewModels
             }
         }
 
-        Visibility authorizationErrorMessageVisibility = Visibility.Hidden;
-
-        public Visibility ErrorMessageVisibility
-        {
-            get { return authorizationErrorMessageVisibility; }
-            set
-            {
-                authorizationErrorMessageVisibility = value;
-                OnPropertyChanged();
-            }
-        }
-
         public AuthorizationViewModel()
         {
             AuthorizationCommand = new ParametrizedCommand(Authorization);
         }
+
         public ICommand AuthorizationCommand { get; }
 
-        public Action<AppealsProcess> SuccessAuthorization { get; set; }
+        public Action<IndexAppealsViewModel> SuccessAuthorization { get; set; }
+        public Action ShowAuthorazationError { get; set; }
+        public Action HideErrors { get; set; }
 
         void Authorization(object obj)
         {
@@ -53,15 +41,15 @@ namespace ViewModels
 
             if (employee == null)
             {
-                ErrorMessageVisibility = Visibility.Visible;
+                ShowAuthorazationError();
             }
             else
             {
-                ErrorMessageVisibility = Visibility.Hidden;
+                HideErrors();
 
-                var appealsProcess = new AppealsProcess(employee);
+                var indexAppealsViewModel = new IndexAppealsViewModel(employee);
 
-                SuccessAuthorization(appealsProcess);
+                SuccessAuthorization(indexAppealsViewModel);
 
                 Login = "";
                 passwordBox.Password = "";

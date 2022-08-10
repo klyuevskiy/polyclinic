@@ -7,29 +7,43 @@
         mc:Ignorable="d"
         Title="{Binding EmployeeName}" Height="450" Width="1200"
         Closing="Window_Closing">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding IdentifyEmployeeCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Grid>
         <Menu>
             <MenuItem Header="Добавить обращение" Command="{Binding AddCommand}"
-                      Visibility="{Binding AddMenuItemVisibility}"></MenuItem>
+                      x:Name="addMenuItem"></MenuItem>
             <MenuItem Header="Изменить обращение"></MenuItem>
-            <MenuItem Header="Удалить обращение" Visibility="{Binding RemoveMenuItemVisibility}"></MenuItem>
+            <MenuItem Header="Удалить обращение"
+                      x:Name="removeMenuItem"></MenuItem>
         </Menu>
         <DataGrid AutoGenerateColumns="False" x:Name="viewAppeals" Margin="0 20 0 0"
                   ItemsSource="{Binding Appeals}" IsReadOnly="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Пациент" Binding="{Binding Path=Patient.FIO}"/>
-                <DataGridTextColumn Header="Телефон пациента" Binding="{Binding Path=Patient.PhoneNumber}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Принял обращения" Binding="{Binding Path=Operator.FIO}"/>
-                <DataGridTextColumn Header="Отделение" Binding="{Binding Path=Department.Name}"/>
-                <DataGridTextColumn Header="Врач" Binding="{Binding Path=Doctor.FIO}"/>
+                <DataGridTextColumn Header="Пациент"
+                                    Binding="{Binding Path=Appeal.Patient.FIO}"/>
+                <DataGridTextColumn Header="Телефон пациента"
+                                    Binding="{Binding Path=Appeal.Patient.PhoneNumber}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Принял обращения" Binding="{Binding Path=Appeal.Operator.FIO}"/>
+                <DataGridTextColumn Header="Отделение"
+                                    Binding="{Binding Path=Appeal.Department.Name}"/>
+                <DataGridTextColumn Header="Врач"
+                                    Binding="{Binding Path=Appeal.Doctor.FIO}"/>
                 <DataGridTextColumn 
                     Header="Дата обращения"
-                    Binding="{Binding Path=ApplicationDate, StringFormat=\{0:dd.MM.yy HH:mm\}}"/>
+                    Binding="{Binding Path=Appeal.ApplicationDate,
+                    StringFormat=\{0:dd.MM.yy HH:mm\}}"/>
                 <DataGridTextColumn 
                     Header="Дата приема"
-                    Binding="{Binding Path=ReceiptDate, StringFormat=\{0:dd.MM.yy HH:mm\}}"/>
-                <DataGridTextColumn Header="Анамнез" Binding="{Binding Path=Anamnesis}"/>
-                <DataGridTextColumn Header="Решение врача" Binding="{Binding Path=DoctorDisease}"/>
+                    Binding="{Binding Path=Appeal.ReceiptDate,
+                    StringFormat=\{0:dd.MM.yy HH:mm\}}"/>
+                <DataGridTextColumn Header="Анамнез"
+                                    Binding="{Binding Path=Appeal.Anamnesis}"/>
+                <DataGridTextColumn Header="Решение врача"
+                                    Binding="{Binding Path=Appeal.DoctorDisease}"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

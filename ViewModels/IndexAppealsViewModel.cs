@@ -1,81 +1,70 @@
-﻿using Models;
+﻿using Models.DataAccess;
 using Models.DataModels;
 using System;
 using System.Collections.ObjectModel;
-using System.Windows;
 using System.Windows.Input;
 
 namespace ViewModels
 {
-    public class IndexAppealsViewModel : ViewModel
+    public class IndexAppealsViewModel : IndexViewModel<Appeal, AppealViewModel>
     {
-        public ObservableCollection<Appeal> Appeals { get; }
-
-        AppealsProcess appealsProcess;
-
-        public string EmployeeName
+        public ObservableCollection<AppealViewModel> Appeals
         {
-            get => appealsProcess.EmployeeName;
+            get => collection;
+            set
+            {
+                collection = value;
+                OnPropertyChanged();
+            }
         }
 
-        public IndexAppealsViewModel(AppealsProcess appealsProcess)
+        private readonly Employee employee;
+
+        public string EmployeeName { get; }
+
+        public IndexAppealsViewModel(Employee employee)
+            : base(appeal => new AppealViewModel(appeal))
         {
-            Appeals = appealsProcess.Appeals;
-            this.appealsProcess = appealsProcess;
+            EmployeeName = (employee is Operator ? "Оператор: " : "Врач: ") +
+                    employee.FIO;
+
+            Build(AppealDAL.GetForEmployee(employee));
 
             AddCommand = new Command(Add);
+            IdentifyEmployeeCommand = new Command(IdentifyEmployee);
 
-            if (appealsProcess.Employee is Doctor)
-                HideAddRemoveButtons();
+            this.employee = employee;
         }
 
         public ICommand AddCommand { get; }
+        public ICommand IdentifyEmployeeCommand { get; }
 
         public Predicate<AppealViewModel> TryChangeAppeal { get; set; }
+        public Action HideButtonsForDoctor { get; set; }
 
         // при добавслении и реадктировании надо сделать dataGrid.Items.Refresh()
         public Action UpdateAppealsView { get; set; }
 
+        void IdentifyEmployee()
+        {
+            if (employee is Doctor)
+                HideButtonsForDoctor();
+        }
+
         void Add()
         {
-            Appeal appeal = appealsProcess.Create();
+            Appeal appeal = new Appeal(employee as Operator);
 
             var appealViewModel = new AppealViewModel(appeal);
-            appealViewModel.Load();
+            
+            appealViewModel.Load(employee);
 
             if (TryChangeAppeal(appealViewModel))
             {
-                appealsProcess.Add(appeal);
+                AppealDAL.Add(appeal);
+                Appeals.Add(appealViewModel);
+
                 UpdateAppealsView();
-            }
-        }
-
-        void HideAddRemoveButtons()
-        {
-            AddMenuItemVisibility = Visibility.Collapsed;
-            RemoveMenuItemVisibility = Visibility.Collapsed;
-        }
-
-        Visibility addMenuItemVisibility = Visibility.Visible;
-        Visibility removeMenuItemVisibility = Visibility.Visible;
-
-        public Visibility AddMenuItemVisibility
-        {
-            get => addMenuItemVisibility;
-            set
-            {
-                addMenuItemVisibility = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public Visibility RemoveMenuItemVisibility
-        {
-            get => removeMenuItemVisibility;
-            set
-            {
-                removeMenuItemVisibility = value;
-                OnPropertyChanged();
             }
         }
     }

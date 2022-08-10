@@ -15,8 +15,9 @@
             <Button HorizontalAlignment="Left" Margin="0 10 0 0" MinWidth="50"
                     MaxWidth="100" Command="{Binding AuthorizationCommand}"
                     CommandParameter="{Binding ElementName=passwordBox}">Войти</Button>
-            <TextBlock x:Name="errorMessage" Margin="0 10 0 0" TextAlignment="Left"
-                       Visibility="{Binding ErrorMessageVisibility}" Foreground="Red">
+            <TextBlock x:Name="errorMessageBox" Margin="0 10 0 0"
+                       TextAlignment="Left" Foreground="Red"
+                       Visibility="Collapsed">
                 Неверный логин или пароль
             </TextBlock>
         </StackPanel>
