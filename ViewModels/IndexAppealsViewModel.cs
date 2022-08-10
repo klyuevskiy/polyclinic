@@ -41,6 +41,7 @@ namespace ViewModels
             Appeal appeal = appealsProcess.Create();
 
             var appealViewModel = new AppealViewModel(appeal);
+            appealViewModel.Load();
 
             if (TryChangeAppeal(appealViewModel))
             {

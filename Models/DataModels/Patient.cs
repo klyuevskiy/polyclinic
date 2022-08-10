@@ -2,11 +2,8 @@
 
 namespace Models.DataModels
 {
-    public class Patient
+    public class Patient : BaseModel
     {
-        // автоматически определится первичным ключём
-        public int Id { get; set; }
-
         [Required]
         public string FIO { get; set; } = "";
 

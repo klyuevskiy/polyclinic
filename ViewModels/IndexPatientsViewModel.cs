@@ -1,16 +1,20 @@
 ﻿using Models.DataAccess;
 using Models.DataModels;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace ViewModels
 {
-    public class IndexPatientsViewModel : ViewModel
+    public class IndexPatientsViewModel : IndexViewModel<Patient, PatientViewModel>
     {
-        public List<Patient> Patients { get; }
-
-        public IndexPatientsViewModel()
+        public IndexPatientsViewModel() :
+            base(p => new PatientViewModel(p))
         {
-            Patients = PatientDAL.GetAll();
+            Build(PatientDAL.GetAll());
+        }
+
+        public ObservableCollection<PatientViewModel> Patients
+        {
+            get => collection;
         }
     }
 }

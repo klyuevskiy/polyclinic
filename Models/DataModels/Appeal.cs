@@ -3,11 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Models.DataModels
 {
-    public class Appeal
+    public class Appeal : BaseModel
     {
-        // автоматически определится первичным ключём
-        public int Id { get; set; }
-
         [Required]
         public virtual Patient Patient { get; set; }
 

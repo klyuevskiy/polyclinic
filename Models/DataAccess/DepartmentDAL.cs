@@ -6,11 +6,10 @@ namespace Models.DataAccess
 {
     public class DepartmentDAL : BaseDAL
     {
-        public static List<Department> GetHaveDoctors()
+        public static IEnumerable<Department> GetHaveDoctors()
         {
             return DataBase.Departments
-                .Where(d => d.Doctors.Count > 0)
-                .ToList();
+                .Where(d => d.Doctors.Count > 0);
         }
     }
 }

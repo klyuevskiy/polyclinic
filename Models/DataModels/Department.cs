@@ -3,11 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Models.DataModels
 {
-    public class Department
+    public class Department : BaseModel
     {
-        // автоматически определится первичным ключём
-        public int Id { get; set; }
-
         [Required]
         public string Name { get; set; } = "";
 

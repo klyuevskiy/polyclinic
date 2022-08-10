@@ -17,9 +17,9 @@ namespace Models.DataAccess
             DataBase.SaveChanges();
         }
 
-        public static List<Patient> GetAll()
+        public static IEnumerable<Patient> GetAll()
         {
-            return DataBase.Patients.ToList();
+            return DataBase.Patients;
         }
 
         public static Patient Update(Patient patient)

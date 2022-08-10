@@ -2,8 +2,18 @@
 
 namespace ViewModels
 {
-    public class PatientViewModel : ViewModel
+    public class PatientViewModel : ModelViewModel<Patient>
     {
+        public Patient Patient
+        {
+            get => model;
+            set
+            {
+                model = value;
+                OnPropertyChanged();
+            }
+        }
+
         string patientFIO;
 
         public string PatientFIO
@@ -14,6 +24,14 @@ namespace ViewModels
                 patientFIO = value;
                 OnPropertyChanged();
             }
+        }
+
+        public override string ToString()
+        {
+            if (Patient == null || Patient.FIO == null)
+                return string.Empty;
+
+            return Patient.FIO;
         }
 
         string patientPhoneNumber;
@@ -28,20 +46,10 @@ namespace ViewModels
             }
         }
 
-        Patient patient = new Patient();
-        public Patient Patient
+        public PatientViewModel(Patient model) : base(model)
         {
-            get { return patient; }
-            set
-            {
-                patient = value;
-
-                if (value != null)
-                {
-                    PatientFIO = patient.FIO;
-                    PatientPhoneNumber = patient.PhoneNumber;
-                }
-            }
+            PatientFIO = model.FIO;
+            PatientPhoneNumber = model.PhoneNumber;
         }
 
         public bool IsValid()

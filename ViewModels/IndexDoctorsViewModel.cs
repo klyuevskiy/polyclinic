@@ -1,36 +1,28 @@
 ﻿using Models.DataModels;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace ViewModels
 {
-    public class IndexDoctorsViewModel : ViewModel
+    public class IndexDoctorsViewModel : IndexViewModel<Doctor, DoctorViewModel>
     {
-        ICollection<Doctor> doctors;
-        public ICollection<Doctor> Doctors
+        public IndexDoctorsViewModel() :
+            base(doc => new DoctorViewModel(doc))
         {
-            get => doctors;
+        }
+
+        public ObservableCollection<DoctorViewModel> Doctors
+        {
+            get => collection;
             set
             {
-                doctors = value;
+                collection = value;
                 OnPropertyChanged();
             }
         }
 
-        Doctor selectedDoctor = null;
-
-        public Doctor SelectedDoctor
+        public void UpdateDoctors(DepartmentViewModel departmentViewModel)
         {
-            get => selectedDoctor;
-            set
-            {
-                selectedDoctor = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public void UpdateDoctors(Department department)
-        {
-            Doctors = department.Doctors;
+            Build(departmentViewModel.Department.Doctors);
         }
     }
 }

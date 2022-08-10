@@ -2,11 +2,8 @@
 
 namespace Models.DataModels
 {
-    public class Employee
+    public class Employee : BaseModel
     {
-        // автоматически определится первичным ключём
-        public int Id { get; set; }
-
         [Required]
         public string Login { get; set; } = "";
 

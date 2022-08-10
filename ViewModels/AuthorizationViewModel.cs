@@ -51,11 +51,6 @@ namespace ViewModels
 
             Employee employee = EmployeeDAL.Get(Login, passwordBox.Password);
 
-            //Models.DataAccess.AppContext appContext = new Models.DataAccess.AppContext();
-
-            //appContext.Database.EnsureCreated();
-            //Employee employee = appContext.Operators.First();
-
             if (employee == null)
             {
                 ErrorMessageVisibility = Visibility.Visible;

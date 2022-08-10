@@ -1,4 +1,5 @@
 ﻿using Models.DataModels;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -15,18 +16,17 @@ namespace Models.DataAccess
             DataBase.SaveChanges();
         }
 
-        public static ObservableCollection<Appeal> GetAll()
+        public static IEnumerable<Appeal> GetAll()
         {
-            return new ObservableCollection<Appeal>(DataBase.Appeals);
+            return DataBase.Appeals;
         }
 
-        public static ObservableCollection<Appeal> GetForDoctor(int doctorId)
+        public static IEnumerable<Appeal> GetForDoctor(int doctorId)
         {
-            return new ObservableCollection<Appeal>(DataBase.Appeals
-                .Where(a => a.Doctor.Id == doctorId));
+            return DataBase.Appeals.Where(a => a.Doctor.Id == doctorId);
         }
 
-        public static ObservableCollection<Appeal> GetForEmployee(Employee employee)
+        public static IEnumerable<Appeal> GetForEmployee(Employee employee)
         {
             if (employee is Doctor doctor)
                 return GetForDoctor(doctor.Id);

@@ -17,7 +17,7 @@ namespace Models
                 EmployeeName = (Employee is Operator ? "Оператор: " : "Врач: ") +
                     Employee.FIO;
 
-                Appeals = AppealDAL.GetForEmployee(employee);
+                Appeals = new ObservableCollection<Appeal>(AppealDAL.GetForEmployee(employee));
             }
         }
 

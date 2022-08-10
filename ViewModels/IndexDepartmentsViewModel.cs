@@ -1,28 +1,26 @@
 ﻿using Models.DataAccess;
 using Models.DataModels;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace ViewModels
 {
-    public class IndexDepartmentsViewModel : ViewModel
+    public class IndexDepartmentsViewModel : IndexViewModel<Department, DepartmentViewModel>
     {
-        public List<Department> Departments { get; }
-
-        Department selectedDepartment = null;
-
-        public Department SelectedDepartment
+        public IndexDepartmentsViewModel():
+            base(dep => new DepartmentViewModel(dep))
         {
-            get => selectedDepartment;
-            set
-            {
-                selectedDepartment = value;
-                OnPropertyChanged();
-            }
+            Build(DepartmentDAL.GetHaveDoctors());
         }
 
-        public IndexDepartmentsViewModel()
+        public ObservableCollection<DepartmentViewModel> Departments
         {
-            Departments = DepartmentDAL.GetHaveDoctors();
+            get => collection;
+            set
+            {
+                collection = value;
+                OnPropertyChanged();
+            }
         }
     }
 }
