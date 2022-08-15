@@ -17,7 +17,7 @@ namespace ViewModels
         }
 
         public IndexPatientsViewModel IndexPatientsViewModel { get; private set; }
-        public IndexDepartmentsViewModel IndexDepartmentsViewModel { get; private set; } 
+        public IndexDepartmentsViewModel IndexDepartmentsViewModel { get; private set; }
         public IndexDoctorsViewModel IndexDoctorsViewModel { get; private set; }
 
         PatientViewModel selectedPatient;
@@ -54,6 +54,8 @@ namespace ViewModels
             }
         }
 
+        public ReceiptDateViewModel ReceiptDate { get; set; }
+
         Employee employee;
 
         public void Load(Employee employee)
@@ -71,6 +73,8 @@ namespace ViewModels
             SelectedPatient = new PatientViewModel(Appeal.Patient);
             SelectedDepartment = new DepartmentViewModel(Appeal.Department);
             SelectedDoctor = new DoctorViewModel(Appeal.Doctor);
+
+            ReceiptDate = new ReceiptDateViewModel(appeal.ReceiptDate);
 
             ConfirmCommand = new Command(Confirm);
             CancelCommand = new Command(Cancel);
@@ -126,6 +130,9 @@ namespace ViewModels
 
                 Appeal.Department = SelectedDepartment.Department;
                 Appeal.Doctor = SelectedDoctor.Doctor;
+
+                Appeal.ReceiptDate = ReceiptDate.ReceiptDate
+                    .Add(ReceiptDate.ReceiptTime);
 
                 SetConfirmDialogResult();
                 CloseWindow();

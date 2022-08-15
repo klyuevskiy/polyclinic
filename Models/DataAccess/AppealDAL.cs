@@ -1,6 +1,6 @@
 ﻿using Models.DataModels;
+using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Models.DataAccess
@@ -32,6 +32,19 @@ namespace Models.DataAccess
                 return GetForDoctor(doctor.Id);
 
             return GetAll();
+        }
+
+        public static IEnumerable<Appeal> GetDateRangeDoctor
+            (DateTime leftBound, DateTime rightBound, int doctorId)
+        {
+            return DataBase.Appeals.Where(a => a.Doctor.Id == doctorId &&
+            a.ReceiptDate >= leftBound && a.ReceiptDate <= rightBound);
+        }
+
+        public static IEnumerable<Appeal> GetDateDoctor(DateTime date, int doctorId)
+        {
+            return DataBase.Appeals.Where(a => a.Doctor.Id == doctorId &&
+            a.ReceiptDate.Date == date.Date);
         }
     }
 }

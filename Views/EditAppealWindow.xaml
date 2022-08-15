@@ -5,7 +5,7 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="{Binding Appeal.Patient.FIO}" Height="500" Width="400"
+        Title="{Binding Appeal.Patient.FIO}" Height="700" Width="400"
         x:Name="window">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -46,11 +46,16 @@
 
             <TextBlock>Дата приема</TextBlock>
             <!-- связь сделать с отдельным свойством для даты-->
-            <DatePicker x:Name="receiptDatePicker"
-                      SelectedDate="{Binding Appeal.ReceiptDate}"
-                      Margin="0 0 0 10"></DatePicker>
+            <Calendar x:Name="receiptDatePicker"
+                      SelectedDate="{Binding ReceiptDate.ReceiptDate}"
+                      Margin="0 0 0 10"
+                      IsEnabled="False"
+                      >
+            </Calendar>
 
-            <ComboBox x:Name="receiptTimePicker"></ComboBox>
+            <ComboBox x:Name="receiptTimePicker"
+                      SelectedItem="{Binding ReceiptDate.ReceiptTime}"
+                      IsEnabled="False"></ComboBox>
             
             <!--Анамнез и решение врача-->
             <TextBlock>Анамнез</TextBlock>
